@@ -1,0 +1,154 @@
+%%% Compile with pdfLaTeX
+\documentclass[a4paper,11pt]{article}
+
+\usepackage{graphicx}
+\usepackage{natbib}
+\usepackage{subcaption}
+%\usepackage{subfig}
+
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{tikz}
+\usepackage{amsfonts}
+\usetikzlibrary{positioning}
+\pagenumbering{gobble}
+%\doublespacing %\singlespacing %\onehalfspacing is default
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+
+\usepackage{amsmath}
+
+\usepackage{mathtools}
+\newcommand{\nota}[3][2ex]{
+    \underset{\mathclap{
+        \begin{tikzpicture}
+          \draw[->] (0, 0) to ++(0,#1);
+          \node[below] at (0,0) {#3};
+        \end{tikzpicture}}}{#2}
+}
+%\usepackage[basque]{babel}
+
+\title{Q-learning for the Optimal Bernoulli Routing}
+
+\begin{document}
+
+\author{}
+\date{}
+
+\maketitle
+
+\section*{Model Description}
+
+We consider a system with $N$ parallel queues and a single dispatcher (or router). 
+Jobs arrive to the system according to a Poisson process of rate $\lambda$. We assume
+that the service time of jobs in the queues is exponentially distributed and we denote by
+$r_i$ the rate at which jobs at queue $i$ are served. When a job arrives to the dispatcher
+it is immediately routed to Queue $i$ with probability $p_i$. Hence, $\sum_{i=1}^Np_i=1$. We aim to study the value of the routing probabilities such that the mean number of customers is minimized.
+ 
+The authors in \cite{AAP11} study this system and 
+characterize the optimal routing probability. Here, aim to show that Q-learning can 
+be used to learn which is the optimal routing probability. 
+
+\section*{Markov Decision Process Formulation}
+
+We formulate the above problem as a Markov Decision Process in discrete time in which 
+the discretization is carried out when a job arrives to the system. We consider the discounted cost problem, that is, we aim to find the probabilities $p_1,p_2,\dots,p_N$ such that the following expression is minimized:
+ \begin{equation}
+\mathbb E\left[\sum_{t=0}^\infty \sum_{i=1}^N\delta^t Q_i(t))\right],
+\end{equation}
+where $\delta\in(0,1)$ and $Q_i(t)$ is the number of jobs in Queue $i$ at time slot $t$.
+
+Let us define the following elements of the Markov Decision Process we consider:
+\begin{itemize}
+\item The state represents the number of jobs in each queue. Therefore, the set of states is a vector of size $N$ such that each element is $0$ or a natural number. That is, $\mathcal S=\mathbb N_0\times \dots \times \mathbb N_0$, where $\mathbb N_0=\mathbb N \cup \{0\}$.
+\item The action is a vector $(p_1,\dots,p_N)$ such that the i-th element is the probability that an incoming job is sent to Queue $i$. Therefore, the set of actions is a probability vector of size $N$. We assume that each element of the probability vector belongs to $\{0,\frac{1}{d},\frac{2}{d},\dots,\frac{d-1}{d},1,\}$ for a fixed $d$ (this means that the probabilities will never be real values).
+\item The cost is the total number of customers in the system when a job is sent to one of the queues.
+\item The transition probabilities. Between two arrivals, one or more jobs can be served at Queue $i$. We denote by $q_{i,j}$ the probability that
+$j$ jobs are served at Queue $i$ in a interval of time of $\lambda$. 
+\end{itemize}
+
+\section*{Calculation of the transition probabilities}
+The probabilities for a $G/M/1$ queue are calculated in \cite{ivo}. In our case:
+$$
+q_{i,j} = 
+\left\{\begin{array}{ll}
+    \displaystyle \int_0^\infty \frac{(r_i t)^j}{j!} e^{-r_i t} \lambda e^{-\lambda t} dt & j < Q_i \\
+    \displaystyle 1- \sum_{k=0}^{Q_i -1} q_{i,k} & j = Q_i \\
+\end{array}\right.
+$$
+Whre $Q_i$ is the number of jons at queue $i$. Thus,
+$$
+q_{i,0} = \int_0^\infty \lambda e^{-t(r_i + \lambda)} dt
+=
+\frac{\lambda}{r_i + \lambda}
+$$
+When $0<j<Q_i$, integrating by parts we get:
+$$
+\int_0^\infty \frac{(r_i t)^j}{j!} e^{-r_i t} \lambda e^{-\lambda t} dt
+=
+\frac{r_i^j}{j!} \lambda \int_0^\infty t^j e^{-t(r_i + \lambda)} dt
+\nota{=}{$\boxed{\begin{array}{cc}
+    u = t^j & dv = e^{-t(r_i+\lambda)} \\
+    du = jt^{j-1} & v = \frac{- e^{-t(r_i+\lambda)}}{r_i+\lambda} dt \\
+\end{array}}$}
+\frac{r_i^j}{j!} \lambda \left( \left. \frac{-t^j e^{-t(r_i+\lambda)}}{r_i+\lambda} \right|_0^\infty + \int_0^\infty jt^{j-1} \frac{e^{-t(r_i+\lambda)}}{r_i+\lambda} dt \right) = 
+$$
+$$
+=
+\frac{r_i^j}{j!} \lambda \int_0^\infty jt^{j-1} \frac{e^{-t(r_i+\lambda)}}{r_i+\lambda} dt
+=
+\frac{r_i}{r_i + \lambda} \int_0^\infty \frac{(r_i t)^{j-1}}{(j-1)!} \lambda e^{-t(r_i + \lambda)} dt
+=
+\frac{r_i}{r_i + \lambda} q_{i,j-1}
+=
+$$
+$$
+=
+\left( \frac{r_i}{r_i + \lambda} \right)^j q_{i,0}
+=
+\frac{r_i^j \lambda}{(r_i + \lambda)^{j+1}}
+$$
+When $j = Q_i$:
+$$
+q_{i, j}
+=
+1 - \sum_{k=0}^{Q_i -1} q_{i,k}
+=
+1 - \sum_{k=0}^{Q_i -1} \frac{r_i^k \lambda}{(r_i + \lambda)^{k+1}}
+=
+1 - \frac{\lambda}{r_i + \lambda} \sum_{k=0}^{Q_i -1} \left( \frac{r_i}{r_i + \lambda} \right)^k
+=
+1 - \frac{\lambda}{r_i + \lambda} \left( \frac{1- \left( \frac{r_i}{r_i + \lambda} \right)^{Q_i} }{1-\left( \frac{r_i}{r_i + \lambda} \right)} \right)
+=
+$$
+$$
+=
+1 - \frac{\lambda}{r_i + \lambda} \left( \frac{1- \left( \frac{r_i}{r_i + \lambda} \right)^{Q_i}}{\frac{\lambda}{r_i + \lambda}} \right)
+=
+\left( \frac{r_i}{r_i + \lambda} \right)^{Q_i}
+$$
+Therefore,
+$$
+q_{i,j} = 
+\left\{\begin{array}{ll}
+    \displaystyle \frac{r_i^j \lambda}{(r_i + \lambda)^{j+1}} & j < Q_i \\
+    \displaystyle \left( \frac{r_i}{r_i + \lambda} \right)^j & j = Q_i \\
+\end{array}\right.
+$$
+\section*{Size of the action space}
+Let $a_d$ be the size of the action space. Then, $a_d$ is the number of ways $N$ numbers from $\{0,\frac{1}{d},\frac{2}{d},\dots,\frac{d-1}{d},1,\}$ can add to 1, i.e., the number of ways $N$ numbers from $\mathbb{N}_0$ can add to $d$. By considering the generating function of the sequence $\{a_i\}_{i\in \mathbb{N}_0}$ we get that $a_d =
+\left(\begin{array}{cc}
+    N+d-1\\
+    d
+\end{array}\right)$.
+$$
+\sum_{k=0}^\infty a_k x^k = (1 + x + x^2 + x^3 + \cdots)^N = (1-x)^{-N} = \sum_{k=0}^\infty \left(\begin{array}{cc}
+    N+k-1\\
+    k
+\end{array}\right) x^k
+$$
+
+\bibliographystyle{abbrv}
+\bibliography{Q-learning-bernoulli}     
+
+\end{document}      
