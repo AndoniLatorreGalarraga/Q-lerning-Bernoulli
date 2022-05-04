@@ -76,7 +76,7 @@ q_{i,j} =
     \displaystyle 1- \sum_{k=0}^{Q_i -1} q_{i,k} & j = Q_i \\
 \end{array}\right.
 $$
-Whre $Q_i$ is the number of jons at queue $i$. Thus,
+Whre $Q_i$ is the number of jobs at queue $i$. Thus,
 $$
 q_{i,0} = \int_0^\infty \lambda e^{-t(r_i + \lambda)} dt
 =
@@ -135,6 +135,7 @@ q_{i,j} =
     \displaystyle \left( \frac{r_i}{r_i + \lambda} \right)^j & j = Q_i \\
 \end{array}\right.
 $$
+
 \section*{Size of the action space}
 Let $a_d$ be the size of the action space. Then, $a_d$ is the number of ways $N$ numbers from $\{0,\frac{1}{d},\frac{2}{d},\dots,\frac{d-1}{d},1,\}$ can add to 1, i.e., the number of ways $N$ numbers from $\mathbb{N}_0$ can add to $d$. By considering the generating function of the sequence $\{a_i\}_{i\in \mathbb{N}_0}$ we get that $a_d =
 \left(\begin{array}{cc}

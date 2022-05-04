@@ -1,12 +1,12 @@
 # Fdb version 3
-["bibtex Q-Learning Bernoulli"] 1649532216 "Q-Learning Bernoulli.aux" "Q-Learning Bernoulli.bbl" "Q-Learning Bernoulli" 1649544176
+["bibtex Q-Learning Bernoulli"] 1649847373 "Q-Learning Bernoulli.aux" "Q-Learning Bernoulli.bbl" "Q-Learning Bernoulli" 1649847376
   "C:/Users/User/AppData/Local/Programs/MiKTeX/bibtex/bst/bibtex/abbrv.bst" 1291868336 20329 b5fed53e10044d0f8112183785c759b1 ""
-  "Q-Learning Bernoulli.aux" 1649544176 880 a2f69780d728631a1e5f41d4043583a0 "pdflatex"
+  "Q-Learning Bernoulli.aux" 1649847375 880 a2f69780d728631a1e5f41d4043583a0 "pdflatex"
   "Q-learning-bernoulli.bib" 1646346980 479 c4d67dd602955c7b6daaf560612c28e1 ""
   (generated)
   "Q-Learning Bernoulli.bbl"
   "Q-Learning Bernoulli.blg"
-["pdflatex"] 1649544174 "d:/Proyectos Uni/UPV/Q-learning Bernoulli/Latex/Q-Learning Bernoulli.tex" "Q-Learning Bernoulli.pdf" "Q-Learning Bernoulli" 1649544176
+["pdflatex"] 1649847373 "d:/Proyectos Uni/UPV/Q-lerning-Bernoulli/Latex/Q-Learning Bernoulli.tex" "Q-Learning Bernoulli.pdf" "Q-Learning Bernoulli" 1649847376
   "C:/Users/User/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1649362722 82560 ef239c2cb0a12117bb5525d1036b4375 ""
   "C:/Users/User/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/tcrm1095.pk" 1646310835 12668 7b22e3033748be31ee8b9be30fb77281 ""
   "C:/Users/User/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1640119632 9769494 ae42ef42ef403a09f505e3bc677d49e7 ""
@@ -176,11 +176,11 @@
   "C:/Users/User/AppData/Local/Programs/MiKTeX/tex/latex/tools/calc.sty" 1636713860 10214 00ce62e730d0cfe22b35e8f1c84949c7 ""
   "C:/Users/User/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388494052 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "C:/Users/User/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1636288472 56029 3f7889dab51d620aa43177c391b7b190 ""
-  "Q-Learning Bernoulli.aux" 1649544176 880 a2f69780d728631a1e5f41d4043583a0 "pdflatex"
-  "Q-Learning Bernoulli.bbl" 1649532216 318 0b6a5cb208d0a07c6f5ce2c7567632cf "bibtex Q-Learning Bernoulli"
-  "Q-Learning Bernoulli.out" 1649544176 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "Q-Learning Bernoulli.tex" 1649544173 6256 6be2d2bb86a244225afff12afee89912 ""
-  "d:/Proyectos Uni/UPV/Q-learning Bernoulli/Latex/Q-Learning Bernoulli.tex" 1649544173 6256 6be2d2bb86a244225afff12afee89912 ""
+  "Q-Learning Bernoulli.aux" 1649847375 880 a2f69780d728631a1e5f41d4043583a0 "pdflatex"
+  "Q-Learning Bernoulli.bbl" 1649847373 318 0b6a5cb208d0a07c6f5ce2c7567632cf "bibtex Q-Learning Bernoulli"
+  "Q-Learning Bernoulli.out" 1649847375 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "Q-Learning Bernoulli.tex" 1649847366 6256 ea9d713ccd2f683bf7a82c9eda19073e ""
+  "d:/Proyectos Uni/UPV/Q-lerning-Bernoulli/Latex/Q-Learning Bernoulli.tex" 1649847366 6256 ea9d713ccd2f683bf7a82c9eda19073e ""
   (generated)
   "Q-Learning Bernoulli.aux"
   "Q-Learning Bernoulli.log"
